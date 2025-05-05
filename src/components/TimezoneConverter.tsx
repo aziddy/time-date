@@ -20,18 +20,18 @@ dayjs.extend(timezone);
 
 // Common timezones with country codes
 const TIMEZONES = [
-    { value: "America/Toronto", label: "Toronto (EST/EDT)", country: "CAN" },
-    { value: "Europe/London", label: "London (GMT/BST)", country: "UK" },
-    { value: "Europe/Berlin", label: "Germany/Berlin (CET/CEST)", country: "DE" },
-    { value: "Asia/Kolkata", label: "India (IST)", country: "IN" },
-    { value: "America/Chicago", label: "Chicago (CST/CDT)", country: "USA" },
-    { value: "America/Denver", label: "Denver (MST/MDT)", country: "USA" },
-    { value: "America/Los_Angeles", label: "Los Angeles (PST/PDT)", country: "USA" },
-    { value: "Europe/Paris", label: "Paris (CET/CEST)", country: "FR" },
-    { value: "Asia/Tokyo", label: "Tokyo (JST)", country: "JP" },
-    { value: "Asia/Shanghai", label: "Shanghai (CST)", country: "CN" },
-    { value: "Australia/Sydney", label: "Sydney (AEST/AEDT)", country: "AU" },
-    { value: "Pacific/Auckland", label: "Auckland (NZST/NZDT)", country: "NZ" },
+    { value: "America/Toronto", label: "Toronto (EST/EDT)", country: "🇨🇦CAN" },
+    { value: "Europe/London", label: "London (GMT/BST)", country: "🇬🇧UK" },
+    { value: "Europe/Berlin", label: "Germany/Berlin (CET/CEST)", country: "🇩🇪DE" },
+    { value: "Asia/Kolkata", label: "India (IST)", country: "🇮🇳IN" },
+    { value: "America/Chicago", label: "Chicago (CST/CDT)", country: "🇺🇸USA" },
+    { value: "America/Denver", label: "Denver (MST/MDT)", country: "🇺🇸USA" },
+    { value: "America/Los_Angeles", label: "Los Angeles (PST/PDT)", country: "🇺🇸USA" },
+    { value: "Europe/Paris", label: "Paris (CET/CEST)", country: "🇫🇷FR" },
+    { value: "Asia/Tokyo", label: "Tokyo (JST)", country: "🇯🇵JP" },
+    { value: "Asia/Shanghai", label: "Shanghai (CST)", country: "🇨🇳CN" },
+    { value: "Australia/Sydney", label: "Sydney (AEST/AEDT)", country: "🇦🇺AU" },
+    { value: "Pacific/Auckland", label: "Auckland (NZST/NZDT)", country: "🇳🇿NZ" },
 ];
 
 const TimezoneConverter = () => {
