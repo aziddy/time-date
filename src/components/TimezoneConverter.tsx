@@ -18,20 +18,22 @@ import {
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-// Common timezones
+// Common timezones with country codes
 const TIMEZONES = [
-    { value: "America/New_York", label: "New York (EST/EDT)" },
-    { value: "America/Chicago", label: "Chicago (CST/CDT)" },
-    { value: "America/Denver", label: "Denver (MST/MDT)" },
-    { value: "America/Los_Angeles", label: "Los Angeles (PST/PDT)" },
-    { value: "Europe/London", label: "London (GMT/BST)" },
-    { value: "Europe/Paris", label: "Paris (CET/CEST)" },
-    { value: "Europe/Berlin", label: "Berlin (CET/CEST)" },
-    { value: "Asia/Tokyo", label: "Tokyo (JST)" },
-    { value: "Asia/Shanghai", label: "Shanghai (CST)" },
-    { value: "Asia/Kolkata", label: "India (IST)" },
-    { value: "Australia/Sydney", label: "Sydney (AEST/AEDT)" },
-    { value: "Pacific/Auckland", label: "Auckland (NZST/NZDT)" },
+    { value: "America/New_York", label: "New York (EST/EDT)", country: "USA" },
+    { value: "America/Chicago", label: "Chicago (CST/CDT)", country: "USA" },
+    { value: "America/Denver", label: "Denver (MST/MDT)", country: "USA" },
+    { value: "America/Los_Angeles", label: "Los Angeles (PST/PDT)", country: "USA" },
+    { value: "Europe/London", label: "London (GMT/BST)", country: "UK" },
+    { value: "Europe/Paris", label: "Paris (CET/CEST)", country: "FR" },
+    { value: "Europe/Berlin", label: "Berlin (CET/CEST)", country: "DE" },
+    { value: "Europe/Munich", label: "Munich (CET/CEST)", country: "DE" },
+    { value: "Europe/Frankfurt", label: "Frankfurt (CET/CEST)", country: "DE" },
+    { value: "Asia/Tokyo", label: "Tokyo (JST)", country: "JP" },
+    { value: "Asia/Shanghai", label: "Shanghai (CST)", country: "CN" },
+    { value: "Asia/Kolkata", label: "India (IST)", country: "IN" },
+    { value: "Australia/Sydney", label: "Sydney (AEST/AEDT)", country: "AU" },
+    { value: "Pacific/Auckland", label: "Auckland (NZST/NZDT)", country: "NZ" },
 ];
 
 const TimezoneConverter = () => {
@@ -39,33 +41,75 @@ const TimezoneConverter = () => {
     const [time, setTime] = useState(format(new Date(), "HH:mm"));
     const [sourceTimezone, setSourceTimezone] = useState("America/New_York");
     const [targetTimezone, setTargetTimezone] = useState("Asia/Kolkata");
-    const [convertedTime, setConvertedTime] = useState("");
+    const [convertedTime, setConvertedTime] = useState<{
+        date: string;
+        time24: string;
+        time12: string;
+        hoursDiff: number;
+    } | null>(null);
 
     useEffect(() => {
         convertTime();
     }, [date, time, sourceTimezone, targetTimezone]);
 
+    const getTimezoneLabel = (value: string): string => {
+        const timezone = TIMEZONES.find(tz => tz.value === value);
+        if (!timezone) return value;
+        return `${timezone.country}/${timezone.label.split(" ")[0]}`;
+    };
+
+    const calculateTimeDifference = (sourceTime: dayjs.Dayjs, targetTime: dayjs.Dayjs): number => {
+        // Get the UTC offset for both timezones in minutes
+        const sourceOffset = sourceTime.utcOffset();
+        const targetOffset = targetTime.utcOffset();
+
+        // Calculate the difference in hours
+        return (targetOffset - sourceOffset) / 60;
+    };
+
+    const formatTimeDifference = (hoursDiff: number): string => {
+        const absHours = Math.abs(hoursDiff);
+        const hourText = absHours === 1 ? "hour" : "hours";
+
+        if (hoursDiff === 0) {
+            return "same time";
+        } else if (hoursDiff > 0) {
+            return `${absHours} ${hourText} ahead`;
+        } else {
+            return `${absHours} ${hourText} behind`;
+        }
+    };
+
     const convertTime = () => {
-        if (!date || !time || !sourceTimezone || !targetTimezone) return;
+        if (!date || !time || !sourceTimezone || !targetTimezone) {
+            setConvertedTime(null);
+            return;
+        }
 
         try {
             // Create a dayjs object with the source timezone
             const sourceTime = dayjs.tz(`${date} ${time}`, sourceTimezone);
 
             if (!sourceTime.isValid()) {
-                setConvertedTime("Invalid date/time");
+                setConvertedTime(null);
                 return;
             }
 
             // Convert to target timezone
             const targetTime = sourceTime.tz(targetTimezone);
 
-            // Format the result
-            setConvertedTime(
-                targetTime.format("YYYY-MM-DD HH:mm:ss (ddd)")
-            );
+            // Calculate hours difference between timezones
+            const hoursDiff = calculateTimeDifference(sourceTime, targetTime);
+
+            // Format the result in different formats
+            setConvertedTime({
+                date: targetTime.format("YYYY-MM-DD (ddd)"),
+                time24: targetTime.format("HH:mm:ss"),
+                time12: targetTime.format("h:mm A"),
+                hoursDiff: hoursDiff
+            });
         } catch {
-            setConvertedTime("Error converting time");
+            setConvertedTime(null);
         }
     };
 
@@ -87,7 +131,12 @@ const TimezoneConverter = () => {
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
                         />
-                        <Button type="button" onClick={handleTodayClick}>
+                        <Button
+                            type="button"
+                            onClick={handleTodayClick}
+                            variant="secondary"
+                            className="font-semibold shadow-md border border-gray-300"
+                        >
                             Today
                         </Button>
                     </div>
@@ -117,7 +166,7 @@ const TimezoneConverter = () => {
                         <SelectContent>
                             {TIMEZONES.map((tz) => (
                                 <SelectItem key={tz.value} value={tz.value}>
-                                    {tz.label}
+                                    {tz.country}/{tz.label}
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -136,7 +185,7 @@ const TimezoneConverter = () => {
                         <SelectContent>
                             {TIMEZONES.map((tz) => (
                                 <SelectItem key={tz.value} value={tz.value}>
-                                    {tz.label}
+                                    {tz.country}/{tz.label}
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -147,7 +196,17 @@ const TimezoneConverter = () => {
             {convertedTime && (
                 <div className="bg-gray-100 p-4 rounded-md mt-4">
                     <h3 className="font-medium text-lg mb-1">Converted Time</h3>
-                    <p className="text-2xl font-bold">{convertedTime}</p>
+                    <div className="space-y-1">
+                        <p className="text-xl font-bold">{convertedTime.date}</p>
+                        <p className="text-lg">{convertedTime.time24}</p>
+                        <p className="text-lg">{convertedTime.time12}</p>
+                        <p className="text-sm text-gray-600 mt-2">
+                            ({getTimezoneLabel(sourceTimezone)} → {getTimezoneLabel(targetTimezone)})
+                        </p>
+                        <p className="text-sm font-medium text-primary">
+                            {formatTimeDifference(convertedTime.hoursDiff)}
+                        </p>
+                    </div>
                 </div>
             )}
         </div>

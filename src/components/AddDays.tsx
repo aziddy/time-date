@@ -112,7 +112,12 @@ const AddDays = () => {
                             value={startDate}
                             onChange={(e) => setStartDate(e.target.value)}
                         />
-                        <Button type="button" onClick={handleTodayClick}>
+                        <Button
+                            type="button"
+                            onClick={handleTodayClick}
+                            variant="secondary"
+                            className="font-semibold shadow-md border border-gray-300"
+                        >
                             Today
                         </Button>
                     </div>
