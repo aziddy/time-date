@@ -36,7 +36,7 @@ function App() {
       </div>
 
       <footer className="mt-8 text-center text-sm text-gray-500">
-        <p>Time & Date Calculator © {new Date().getFullYear()}</p>
+        <p>Time & Date Calculator {new Date().getFullYear()}</p>
       </footer>
     </div>
   )
