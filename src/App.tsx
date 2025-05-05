@@ -12,7 +12,7 @@ function App() {
       <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">Time & Date Calculator</h1>
 
       <div className="w-full max-w-3xl bg-white rounded-lg shadow-md border border-zinc-200 p-4 md:p-6">
-        <Tabs defaultValue="countDays" className="w-full">
+        <Tabs defaultValue="timezoneConverter" className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-6">
             <TabsTrigger value="countDays">Count Days</TabsTrigger>
             <TabsTrigger value="timezoneConverter">Timezone Converter</TabsTrigger>
