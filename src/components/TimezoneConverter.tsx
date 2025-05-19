@@ -20,18 +20,18 @@ dayjs.extend(timezone);
 
 // Common timezones with country codes
 const TIMEZONES = [
-    { value: "America/Toronto", label: "Toronto (EST/EDT)", country: "🇨🇦CAN" },
-    { value: "Europe/London", label: "London (GMT/BST)", country: "🇬🇧UK" },
-    { value: "Europe/Berlin", label: "Germany/Berlin (CET/CEST)", country: "🇩🇪DE" },
-    { value: "Asia/Kolkata", label: "India (IST)", country: "🇮🇳IN" },
-    { value: "America/Chicago", label: "Chicago (CST/CDT)", country: "🇺🇸USA" },
-    { value: "America/Denver", label: "Denver (MST/MDT)", country: "🇺🇸USA" },
-    { value: "America/Los_Angeles", label: "Los Angeles (PST/PDT)", country: "🇺🇸USA" },
-    { value: "Europe/Paris", label: "Paris (CET/CEST)", country: "🇫🇷FR" },
-    { value: "Asia/Tokyo", label: "Tokyo (JST)", country: "🇯🇵JP" },
-    { value: "Asia/Shanghai", label: "Shanghai (CST)", country: "🇨🇳CN" },
-    { value: "Australia/Sydney", label: "Sydney (AEST/AEDT)", country: "🇦🇺AU" },
-    { value: "Pacific/Auckland", label: "Auckland (NZST/NZDT)", country: "🇳🇿NZ" },
+    { value: "America/Toronto", label: "Toronto (EST/EDT) GMT-5/-4", country: "🇨🇦CAN" },
+    { value: "Europe/London", label: "London (GMT/BST) GMT+0/+1", country: "🇬🇧UK" },
+    { value: "Europe/Berlin", label: "Germany/Berlin (CET/CEST) GMT+1/+2", country: "🇩🇪DE" },
+    { value: "Asia/Kolkata", label: "India (IST) GMT+5:30", country: "🇮🇳IN" },
+    { value: "America/Chicago", label: "Chicago (CST/CDT) GMT-6/-5", country: "🇺🇸USA" },
+    { value: "America/Denver", label: "Denver (MST/MDT) GMT-7/-6", country: "🇺🇸USA" },
+    { value: "America/Los_Angeles", label: "Los Angeles (PST/PDT) GMT-8/-7", country: "🇺🇸USA" },
+    { value: "Europe/Paris", label: "Paris (CET/CEST) GMT+1/+2", country: "🇫🇷FR" },
+    { value: "Asia/Tokyo", label: "Tokyo (JST) GMT+9", country: "🇯🇵JP" },
+    { value: "Asia/Shanghai", label: "Shanghai (CST) GMT+8", country: "🇨🇳CN" },
+    { value: "Australia/Sydney", label: "Sydney (AEST/AEDT) GMT+10/+11", country: "🇦🇺AU" },
+    { value: "Pacific/Auckland", label: "Auckland (NZST/NZDT) GMT+12/+13", country: "🇳🇿NZ" },
 ];
 
 const TimezoneConverter = () => {
