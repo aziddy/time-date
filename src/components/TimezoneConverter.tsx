@@ -78,6 +78,28 @@ const TimezoneConverter = () => {
         }
     };
 
+    const generateNaturalLanguageOutput = (): string => {
+        if (!convertedTime) return "";
+
+        const sourceTz = TIMEZONES.find(tz => tz.value === sourceTimezone);
+        const targetTz = TIMEZONES.find(tz => tz.value === targetTimezone);
+
+        if (!sourceTz || !targetTz) return "";
+
+        const sourceTime = dayjs.tz(`${date} ${time}`, sourceTimezone);
+        const targetTime = dayjs.tz(`${date} ${time}`, sourceTimezone).tz(targetTimezone);
+
+        const sourceTime12 = sourceTime.format("h:mm A");
+        const targetTime12 = targetTime.format("h:mm A");
+
+        const targetDate = targetTime.format("MMM D");
+
+        const sameDay = sourceTime.format("YYYY-MM-DD") === targetTime.format("YYYY-MM-DD");
+        const dayIndicator = sameDay ? "(Same day)" : `(${targetDate})`;
+
+        return `It's ${targetTime12} ${dayIndicator} in ${targetTz.country}/${targetTz.label.split(" ")[0]} (${targetTz.label.split("(")[1].split(")")[0]})\nwhen it's\n${sourceTime12} in ${sourceTz.country}/${sourceTz.label.split(" ")[0]} (${sourceTz.label.split("(")[1].split(")")[0]})`;
+    };
+
     const convertTime = () => {
         if (!date || !time || !sourceTimezone || !targetTimezone) {
             setConvertedTime(null);
@@ -151,7 +173,7 @@ const TimezoneConverter = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
                 <div className="space-y-2">
                     <Label htmlFor="source-timezone">From Timezone</Label>
                     <Select
@@ -171,26 +193,35 @@ const TimezoneConverter = () => {
                     </Select>
                 </div>
 
-                <div className="space-y-2">
-                    <Label htmlFor="target-timezone">To Timezone</Label>
-                    <Select
-                        value={targetTimezone}
-                        onValueChange={(value) => setTargetTimezone(value)}
-                    >
-                        <SelectTrigger id="target-timezone">
-                            <SelectValue placeholder="Select timezone" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {TIMEZONES.map((tz) => (
-                                <SelectItem key={tz.value} value={tz.value}>
-                                    {tz.country}/{tz.label}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                <div className="border-t border-gray-200 pt-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="target-timezone">To Timezone</Label>
+                        <Select
+                            value={targetTimezone}
+                            onValueChange={(value) => setTargetTimezone(value)}
+                        >
+                            <SelectTrigger id="target-timezone">
+                                <SelectValue placeholder="Select timezone" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {TIMEZONES.map((tz) => (
+                                    <SelectItem key={tz.value} value={tz.value}>
+                                        {tz.country}/{tz.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
             </div>
-
+            {convertedTime && (
+                <div className="bg-blue-50 p-4 rounded-md mt-4 border border-blue-200">
+                    <h3 className="font-medium text-lg mb-2 text-blue-800">Natural Language</h3>
+                    <p className="text-blue-900 leading-relaxed whitespace-pre-line">
+                        {generateNaturalLanguageOutput()}
+                    </p>
+                </div>
+            )}
             {convertedTime && (
                 <div className="bg-gray-100 p-4 rounded-md mt-4">
                     <h3 className="font-medium text-lg mb-1">Converted Time</h3>
