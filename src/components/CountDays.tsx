@@ -37,7 +37,7 @@ const CountDays = () => {
 
     return (
         <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-6">
                 <div className="space-y-2">
                     <Label htmlFor="start-date">Start Date</Label>
                     <div className="flex space-x-2">
@@ -66,6 +66,71 @@ const CountDays = () => {
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
                     />
+                    <div className="flex flex-wrap gap-2 mt-2">
+                        <Button
+                            type="button"
+                            onClick={() => setEndDate(format(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), "yyyy-MM-dd"))}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                        >
+                            -30 days
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => setEndDate(format(new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), "yyyy-MM-dd"))}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                        >
+                            -14 days
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => setEndDate(format(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), "yyyy-MM-dd"))}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                        >
+                            -7 days
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => setEndDate(format(new Date(), "yyyy-MM-dd"))}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                        >
+                            Today
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => setEndDate(format(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), "yyyy-MM-dd"))}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                        >
+                            +7 days
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => setEndDate(format(new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), "yyyy-MM-dd"))}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                        >
+                            +14 days
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => setEndDate(format(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), "yyyy-MM-dd"))}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                        >
+                            +30 days
+                        </Button>
+                    </div>
                 </div>
             </div>
 
