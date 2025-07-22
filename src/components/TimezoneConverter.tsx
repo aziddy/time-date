@@ -78,13 +78,13 @@ const TimezoneConverter = () => {
         }
     };
 
-    const generateNaturalLanguageOutput = (): string => {
-        if (!convertedTime) return "";
+    const generateNaturalLanguageOutput = (): { targetTime: string; targetTimezone: string; sourceTime: string; sourceTimezone: string; } | null => {
+        if (!convertedTime) return null;
 
         const sourceTz = TIMEZONES.find(tz => tz.value === sourceTimezone);
         const targetTz = TIMEZONES.find(tz => tz.value === targetTimezone);
 
-        if (!sourceTz || !targetTz) return "";
+        if (!sourceTz || !targetTz) return null;
 
         const sourceTime = dayjs.tz(`${date} ${time}`, sourceTimezone);
         const targetTime = dayjs.tz(`${date} ${time}`, sourceTimezone).tz(targetTimezone);
@@ -97,7 +97,12 @@ const TimezoneConverter = () => {
         const sameDay = sourceTime.format("YYYY-MM-DD") === targetTime.format("YYYY-MM-DD");
         const dayIndicator = sameDay ? "(Same day)" : `(${targetDate})`;
 
-        return `It's ${targetTime12} ${dayIndicator} in ${targetTz.country}/${targetTz.label.split(" ")[0]} (${targetTz.label.split("(")[1].split(")")[0]})\nwhen it's\n${sourceTime12} in ${sourceTz.country}/${sourceTz.label.split(" ")[0]} (${sourceTz.label.split("(")[1].split(")")[0]})`;
+        return {
+            targetTime: `${targetTime12} ${dayIndicator}`,
+            targetTimezone: `${targetTz.country}/${targetTz.label.split(" ")[0]} (${targetTz.label.split("(")[1].split(")")[0]})`,
+            sourceTime: sourceTime12,
+            sourceTimezone: `${sourceTz.country}/${sourceTz.label.split(" ")[0]} (${sourceTz.label.split("(")[1].split(")")[0]})`
+        };
     };
 
     const convertTime = () => {
@@ -217,14 +222,16 @@ const TimezoneConverter = () => {
             {convertedTime && (
                 <div className="bg-blue-50 p-4 rounded-md mt-4 border border-blue-200">
                     <h3 className="font-medium text-lg mb-2 text-blue-800">Natural Language</h3>
-                    <p className="text-blue-900 leading-relaxed whitespace-pre-line">
-                        {generateNaturalLanguageOutput()}
+                    <p className="text-blue-900 leading-relaxed">
+                        It's <strong>{generateNaturalLanguageOutput()?.targetTime}</strong> in <strong>{generateNaturalLanguageOutput()?.targetTimezone}</strong><br />
+                        when it's<br />
+                        <strong>{generateNaturalLanguageOutput()?.sourceTime}</strong> in <strong>{generateNaturalLanguageOutput()?.sourceTimezone}</strong>
                     </p>
                 </div>
             )}
             {convertedTime && (
                 <div className="bg-gray-100 p-4 rounded-md mt-4">
-                    <h3 className="font-medium text-lg mb-1">Converted Time</h3>
+                    <h3 className="font-medium text-lg mb-1">Converted Time ({getTimezoneLabel(targetTimezone)})</h3>
                     <div className="space-y-1">
                         <p className="text-xl font-bold">{convertedTime.date}</p>
                         <p className="text-lg">{convertedTime.time24}</p>
