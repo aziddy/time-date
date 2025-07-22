@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
+import "./App.css";
 
 // Use React.lazy for component loading
 const CountDays = React.lazy(() => import("./components/CountDays"));

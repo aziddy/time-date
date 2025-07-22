@@ -40,3 +40,13 @@
 .read-the-docs {
   color: #888;
 }
+
+.timezone-text-box {
+  display: inline-block;
+  background-color: #e5e7eb;
+  border: 1px solid #d1d5db;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+}

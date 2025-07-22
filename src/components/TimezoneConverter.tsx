@@ -220,27 +220,27 @@ const TimezoneConverter = () => {
                 </div>
             </div>
             {convertedTime && (
-                <div className="bg-blue-50 p-4 rounded-md mt-4 border border-blue-200">
+                <div className="bg-blue-50 p-4 rounded-md mt-4 border border-blue-200 text-left">
                     <h3 className="font-medium text-lg mb-2 text-blue-800">Natural Language</h3>
                     <p className="text-blue-900 leading-relaxed">
-                        It's <strong>{generateNaturalLanguageOutput()?.targetTime}</strong> in <strong>{generateNaturalLanguageOutput()?.targetTimezone}</strong><br />
+                        It's <span className="timezone-text-box">{generateNaturalLanguageOutput()?.targetTime}</span> in <span className="timezone-text-box">{generateNaturalLanguageOutput()?.targetTimezone}</span><br />
                         when it's<br />
-                        <strong>{generateNaturalLanguageOutput()?.sourceTime}</strong> in <strong>{generateNaturalLanguageOutput()?.sourceTimezone}</strong>
+                        <span className="timezone-text-box">{generateNaturalLanguageOutput()?.sourceTime}</span> in <span className="timezone-text-box">{generateNaturalLanguageOutput()?.sourceTimezone}</span>
                     </p>
                 </div>
             )}
             {convertedTime && (
-                <div className="bg-gray-100 p-4 rounded-md mt-4">
+                <div className="bg-gray-100 p-4 rounded-md mt-4 text-left">
                     <h3 className="font-medium text-lg mb-1">Converted Time ({getTimezoneLabel(targetTimezone)})</h3>
                     <div className="space-y-1">
                         <p className="text-xl font-bold">{convertedTime.date}</p>
-                        <p className="text-lg">{convertedTime.time24}</p>
-                        <p className="text-lg">{convertedTime.time12}</p>
-                        <p className="text-sm text-gray-600 mt-2">
+                        <p className="text-lg">{convertedTime.time24} (24-hour format) || {convertedTime.time12} (12-hour format) </p>
+                        <p className="text-lg"></p>
+                        {/* <p className="text-sm text-gray-600 mt-2">
                             ({getTimezoneLabel(sourceTimezone)} → {getTimezoneLabel(targetTimezone)})
-                        </p>
+                        </p> */}
                         <p className="text-sm font-medium text-primary">
-                            {formatTimeDifference(convertedTime.hoursDiff)}
+                            {getTimezoneLabel(targetTimezone)} is {formatTimeDifference(convertedTime.hoursDiff)}
                         </p>
                     </div>
                 </div>
